@@ -1,6 +1,8 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import Axios from "axios";
+import CartModule from "./cart";
+
 
 
 Vue.use(Vuex);
@@ -29,7 +31,7 @@ export default new Vuex.Store({
         },
         pageCount: (state, getters) =>
             Math.ceil(getters.productsFilteredByCategory.length / state.pageSize),
-        categories: state => ["All", ...state.categoriesData]
+        categories: state => ["All", ...state.categoriesData] //nếu bỏ dấu 3 chấm thì nó sẽ chỉ lấy mỗi all,nối array => ['all','',''],
     },
     mutations: {
         setCurrentPage(state, page) {
@@ -55,5 +57,6 @@ export default new Vuex.Store({
             let cdata = (await Axios.get(categoriesUrl)).data;
             context.commit("setData", { pdata, cdata} );
         }
-    }
+    },
+    modules: { cart: CartModule },
 })
